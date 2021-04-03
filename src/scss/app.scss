@@ -1,0 +1,14 @@
+#title {
+  font-size: 20px;
+  color: red;
+
+  & span {
+    font-size: 10px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-column: auto;
+  grid-row: auto;
+}
