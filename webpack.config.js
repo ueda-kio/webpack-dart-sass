@@ -84,6 +84,27 @@ module.exports = (env, argv) => {
             },
           ]
         },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                // .babelrcで設定してるからいらない
+                // presets: [
+                //   ['@babel/preset-env']
+                // ],
+              },
+            },
+          ],
+        },
+        {
+          enforce: 'pre',
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'eslint-loader',
+        },
       ],
     },
     devServer: {
@@ -93,6 +114,8 @@ module.exports = (env, argv) => {
     // エラーの詳細を吐かせる（？）
     stats: {
       children: true
-    }
+    },
+    // IE11対応（必須らしい）
+    target: ["web", "es5"],
   }
 }
