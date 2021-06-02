@@ -1,0 +1,15 @@
+@use "../../foundation/var";
+
+.p-photoList {
+  @include var.flexBox(space-between, center, wrap);
+  @at-root {
+    #{&}__contents {
+      width: 32%;
+      border: #fff 5px solid;
+      &:nth-child(n+4) {
+        margin-top: 10px;
+      }
+    }
+  }
+}
+

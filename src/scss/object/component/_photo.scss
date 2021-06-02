@@ -1,0 +1,5 @@
+@use "../../foundation/var";
+
+.c-photo {
+  @include var.objectFit;
+}
