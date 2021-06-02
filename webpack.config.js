@@ -58,6 +58,10 @@ module.exports = (env, argv) => {
             MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
+              options: {
+                url: false,// sassで相対パスを書けるようにする
+                sourceMap: true,
+              },
             },
             {
               loader: 'postcss-loader',
