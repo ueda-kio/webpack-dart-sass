@@ -50,6 +50,10 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.ejs$/,
+          use: 'ejs-compiled-loader',
+        },
+        {
           test: /\.scss$/,
           use: [
             MiniCssExtractPlugin.loader,
@@ -73,10 +77,11 @@ module.exports = (env, argv) => {
             },
             {
               loader: 'sass-loader',
-              // options: {
-              //   importer: globImporter(),
-              //   sourceMap: true,
-              // },
+              options: {
+                implementation: require('sass'),
+                // importer: globImporter(),
+                // sourceMap: true,
+              },
             },
           ]
         },
@@ -86,5 +91,9 @@ module.exports = (env, argv) => {
       contentBase: path.resolve(__dirname, 'public'),
       port: 8080,
     },
+    // エラーの詳細を吐かせる（？）
+    stats: {
+      children: true
+    }
   }
 }
