@@ -37,7 +37,10 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         filename: 'about/index.html',
         template: 'src/ejs/about/index.ejs',
-        // minify: false,
+
+      //なんかいいヤツらしい。ggrks
+      new HtmlWebpackHarddiskPlugin({
+        alwaysWriteToDisk: true
       })
     ],
     resolve: {
