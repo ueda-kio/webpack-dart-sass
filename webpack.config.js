@@ -68,10 +68,7 @@ module.exports = (env, argv) => {
                 postcssOptions: {
                   plugins: [
                     [
-                      "autoprefixer",
-                      {
-                        grid: true
-                      },
+                      require('autoprefixer')({grid: true}),
                     ],
                   ],
                 }
