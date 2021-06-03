@@ -137,7 +137,10 @@ module.exports = (env, argv) => {
     stats: {
       children: true
     },
-    // IE11対応（必須らしい）
-    target: ["web", "es5"],
+    target: is_DEVELOP ?
+      // dev-serverのホットリロードが聞かない問題への対処
+      "web" :
+      // IE11対応（必須らしい）
+      ["web", "es5"]
   }
 }
