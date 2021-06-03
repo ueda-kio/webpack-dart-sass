@@ -1,0 +1,7 @@
+@use "../../foundation/var";
+
+.c-mainImg  {
+  @include var.objectFit;
+  height: 500px;
+  border: #fff solid 5px;
+}

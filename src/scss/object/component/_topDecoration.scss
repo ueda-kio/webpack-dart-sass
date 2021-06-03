@@ -1,0 +1,6 @@
+@use "../../foundation/var";
+
+.c-topDecoration {
+  height: 15px;
+  background: url('#{var.$bgPath}bg.jpg');
+}
