@@ -2,6 +2,7 @@ const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 
 module.exports = (env, argv) => {
@@ -32,11 +33,29 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'src/ejs/index.ejs',
-        // minify: false,
+        // 指定しないとstylesheetもhead内に書かれちゃう
+        inject: 'body',
+        // MODEによって切り替える方法とどっちがいいのかわかんない
+        // hash: true,
+        // prod時にコメントだけ削除する
+        minify: is_DEVELOP ?
+          false :
+          {
+            collapseWhitespace: false,
+            removeComments: true,
+          },
       }),
       new HtmlWebpackPlugin({
         filename: 'about/index.html',
         template: 'src/ejs/about/index.ejs',
+        inject: 'body',
+        minify: is_DEVELOP ?
+          false :
+          {
+            collapseWhitespace: false,
+            removeComments: true,
+          },
+      }),
 
       //なんかいいヤツらしい。ggrks
       new HtmlWebpackHarddiskPlugin({
