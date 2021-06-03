@@ -13,7 +13,7 @@ module.exports = (env, argv) => {
       path: path.join(__dirname, 'public'),
       filename: is_DEVELOP
         ? 'assets/javascript/bundle.js'
-        : 'assets/javascript/bundle.[hash].js',
+        : 'assets/javascript/bundle.[contenthash].js',
     },
     devtool: is_DEVELOP ? 'source-map' : 'eval',
     watchOptions: {
@@ -26,7 +26,7 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         filename: is_DEVELOP
           ? 'assets/stylesheet/bundle.css'
-          : 'assets/stylesheet/bundle.[hash]].css',
+          : 'assets/stylesheet/bundle.[contenthash].css',
       }),
 
       new HtmlWebpackPlugin({
