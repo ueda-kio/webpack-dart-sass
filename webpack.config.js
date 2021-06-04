@@ -3,7 +3,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = (env, argv) => {
   const is_DEVELOP = argv.mode === "development";
@@ -69,6 +69,21 @@ module.exports = (env, argv) => {
       // 拡張子を省略してimportできるようになる
       extensions: ['.js', '.ts'],
     },
+
+    // UglifyJSPluginは非推奨
+    optimization: {
+      minimize: is_DEVELOP ?
+        false :
+        true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            ecma: 2020,
+          }
+        })
+      ]
+    },
+
     module: {
       rules: [
         {
