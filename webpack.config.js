@@ -36,7 +36,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'src/ejs/index.ejs',
-        // 指定しないとstylesheetもhead内に書かれちゃう
+        // 指定しないとjsもhead内に書かれちゃう
         inject: 'body',
         // MODEによって切り替える方法とどっちがいいのかわかんない
         // hash: true,
