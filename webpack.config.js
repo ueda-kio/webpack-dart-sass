@@ -22,7 +22,10 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new CleanWebpackPlugin({
-        // cleanOnceBeforeBuildPatterns: ['!/assets/images/']
+        cleanOnceBeforeBuildPatterns: [
+          'assets/stylesheet',
+          'assets/javascript',
+        ]
       }),
       new MiniCssExtractPlugin({
         filename: is_DEVELOP
