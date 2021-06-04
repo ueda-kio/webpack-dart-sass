@@ -115,10 +115,9 @@ module.exports = (env, argv) => {
             {
               loader: 'babel-loader',
               options: {
-                // .babelrcで設定してるからいらない
-                // presets: [
-                //   ['@babel/preset-env']
-                // ],
+                // promiseを使えるようにするヤツ
+                presets: ['@babel/preset-env', '@babel/preset-react'],
+                plugins: ['@babel/plugin-transform-runtime'],
               },
             },
           ],
