@@ -66,9 +66,8 @@ module.exports = (env, argv) => {
       })
     ],
     resolve: {
-      extensions: [
-        '.js', // for style-loader
-      ],
+      // 拡張子を省略してimportできるようになる
+      extensions: ['.js', '.ts'],
     },
     module: {
       rules: [
