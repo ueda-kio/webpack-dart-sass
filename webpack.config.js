@@ -1,4 +1,5 @@
 const path = require('path');
+const globule = require('globule');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -6,10 +7,63 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
+// ejsファイルが増えても問題ないような処置
+const assignPlugins = (env_mode) => {
+  const srcFiles = globule.find(['**/*.ejs', '!**/_*.ejs'], {cwd: `${__dirname}/src/ejs`});
+  const entriesList = {};
+  const assignObject = {plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        'assets/stylesheet',
+        'assets/javascript',
+      ]
+    }),
+    new MiniCssExtractPlugin({
+      filename: env_mode
+        ? 'assets/stylesheet/bundle.css'
+        : 'assets/stylesheet/bundle.[contenthash].css',
+    }),
+    //なんかいいヤツらしい。
+    new HtmlWebpackHarddiskPlugin({
+      alwaysWriteToDisk: true
+    }),
+    // 画像をassets/images/にコピー
+    new CopyPlugin({
+      patterns: [
+        {from: "src/images/", to: "assets/images/"}
+      ]
+    })
+  ]};
+
+  for(const ejsFileName of srcFiles) {
+    const htmlFileName = ejsFileName.replace(new RegExp(`.ejs`, 'i'), `.html`);
+    entriesList[htmlFileName] = `${__dirname}/src/ejs/${ejsFileName}`;
+  }
+
+  for(const [htmlFileName, ejsFileName] of Object.entries(entriesList)) {
+    assignObject.plugins.push(new HtmlWebpackPlugin({
+      filename : htmlFileName,
+      template : ejsFileName,
+      // 指定しないとjsもhead内に書かれちゃう
+      inject: 'body',
+      // prod時にコメントだけ削除する
+      minify: env_mode ?
+        false :
+        {
+          collapseWhitespace: false,
+          removeComments: true,
+        },
+    }));
+  }
+
+  return assignObject;
+};
+
 module.exports = (env, argv) => {
   const is_DEVELOP = argv.mode === "development";
 
-  return {
+  return [
+    Object.assign({
     entry: './src/js/main',
     output: {
       path: path.join(__dirname, 'public'),
@@ -21,58 +75,6 @@ module.exports = (env, argv) => {
     watchOptions: {
       ignored: /node_modules/
     },
-    plugins: [
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [
-          'assets/stylesheet',
-          'assets/javascript',
-        ]
-      }),
-      new MiniCssExtractPlugin({
-        filename: is_DEVELOP
-          ? 'assets/stylesheet/bundle.css'
-          : 'assets/stylesheet/bundle.[contenthash].css',
-      }),
-
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: 'src/ejs/index.ejs',
-        // 指定しないとjsもhead内に書かれちゃう
-        inject: 'body',
-        // MODEによって切り替える方法とどっちがいいのかわかんない
-        // hash: true,
-        // prod時にコメントだけ削除する
-        minify: is_DEVELOP ?
-          false :
-          {
-            collapseWhitespace: false,
-            removeComments: true,
-          },
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'about/index.html',
-        template: 'src/ejs/about/index.ejs',
-        inject: 'body',
-        minify: is_DEVELOP ?
-          false :
-          {
-            collapseWhitespace: false,
-            removeComments: true,
-          },
-      }),
-
-      //なんかいいヤツらしい。ggrks
-      new HtmlWebpackHarddiskPlugin({
-        alwaysWriteToDisk: true
-      }),
-
-      // 画像をassets/images/にコピー
-      new CopyPlugin({
-        patterns: [
-          {from: "src/images/", to: "assets/images/"}
-        ]
-      })
-    ],
     resolve: {
       // 拡張子を省略してimportできるようになる
       extensions: ['.js', '.ts'],
@@ -80,9 +82,7 @@ module.exports = (env, argv) => {
 
     // UglifyJSPluginは非推奨
     optimization: {
-      minimize: is_DEVELOP ?
-        false :
-        true,
+      minimize: is_DEVELOP ? false : true,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -166,5 +166,6 @@ module.exports = (env, argv) => {
       "web" :
       // IE11対応（必須らしい）
       ["web", "es5"]
-  }
+    }, assignPlugins(is_DEVELOP))
+  ]
 }
