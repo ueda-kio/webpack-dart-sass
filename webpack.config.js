@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
   const is_DEVELOP = argv.mode === "development";
@@ -63,6 +64,13 @@ module.exports = (env, argv) => {
       //なんかいいヤツらしい。ggrks
       new HtmlWebpackHarddiskPlugin({
         alwaysWriteToDisk: true
+      }),
+
+      // 画像をassets/images/にコピー
+      new CopyPlugin({
+        patterns: [
+          {from: "src/images/", to: "assets/images/"}
+        ]
       })
     ],
     resolve: {
