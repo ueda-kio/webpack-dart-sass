@@ -1,5 +1,6 @@
 import {Human} from './class/Human';
 import '../scss/app.scss'
+import fetchFunc from './class/Promise';
 
 const kio = new Human('uedakio', 25);
 const greet = kio.greeting();
@@ -31,3 +32,6 @@ const call = () => {
 }
 
 call();
+
+const keyword = '銀魂'
+fetchFunc(keyword)
