@@ -1,18 +1,33 @@
 const fs = require('fs');
 const prefix = process.argv[2];
 const fileName = process.argv[3];
-const temp = `@use "../../foundation/var.scss";
-
-.${prefix}-${fileName} {
-
-}
-`;
 const errorMessage = `Please enter "l", "c", "p" or "u" for 2nd argument
       "l": layout,
       "c": component,
       "p": project,
       "u": utility`;
 let dirName = '';
+
+/**
+ * @summary 新しいscssファイルを作成する
+ */
+const createNewScssFile = () => {
+  const temp = `@use "../${prefix !== 'l' ? '../' : '' }foundation/var.scss";
+
+.${prefix}-${fileName} {
+
+}
+`;
+
+  fs.writeFileSync(`src/scss/${dirName}/_${fileName}.scss`, temp, 'utf8');
+};
+
+/**
+ * @summary index.scssファイルに"@forward"を追記する
+ */
+const appendIndexFile = () => {
+  fs.appendFileSync(`src/scss/${dirName}/index.scss`, `\n@forward "${fileName}";`, 'utf8');
+};
 
 
 try {
@@ -43,9 +58,7 @@ try {
   /**
    * @summary layout以外の場合パスに'object/'を追加
    */
-  if(dirName === 'component' || dirName === 'project' || dirName === 'utility') {
-    dirName = `object/${dirName}`;
-  }
+  if(dirName !== 'layout') dirName = `object/${dirName}`;
 
   /**
    * @summary 既に同名のファイルが存在する場合エラー
@@ -54,7 +67,9 @@ try {
     throw Error(`src/scss/${dirName}/_${fileName}.scss already exits!`);
   }
 
-  fs.writeFileSync(`src/scss/${dirName}/_${fileName}.scss`, temp, 'utf8');
+  createNewScssFile();
+  appendIndexFile();
+
 } catch (err) {
-  console.error(err)
+  console.error(err);
 }
