@@ -2,3 +2,4 @@ node_modules
 *.d.ts
 public/**/*.js
 *.config.js
+createScssFile.js

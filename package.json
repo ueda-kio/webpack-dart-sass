@@ -11,7 +11,8 @@
     "start": "webpack serve --mode=development",
     "dev": "webpack --mode=development",
     "prod": "webpack --mode=production",
-    "watch": "webpack -w --mode=development"
+    "watch": "webpack -w --mode=development",
+    "mkscss": "node createScssFile.js"
   },
   "keywords": [],
   "author": "",
