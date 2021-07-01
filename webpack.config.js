@@ -64,108 +64,105 @@ module.exports = (env, argv) => {
 
   return [
     Object.assign({
-    entry: './src/js/main',
-    output: {
-      path: path.join(__dirname, 'public'),
-      filename: is_DEVELOP
-        ? 'assets/javascript/bundle.js'
-        : 'assets/javascript/bundle.[contenthash].js',
-    },
-    devtool: is_DEVELOP ? 'source-map' : 'eval',
-    watchOptions: {
-      ignored: /node_modules/
-    },
-    resolve: {
-      // 拡張子を省略してimportできるようになる
-      extensions: ['.js', '.ts'],
-    },
+      entry: './src/js/main',
+      output: {
+        path: path.join(__dirname, 'public'),
+        filename: is_DEVELOP
+          ? 'assets/javascript/bundle.js'
+          : 'assets/javascript/bundle.[contenthash].js',
+      },
+      devtool: is_DEVELOP ? 'source-map' : 'eval',
+      watchOptions: {
+        ignored: /node_modules/
+      },
+      resolve: {
+        // 拡張子を省略してimportできるようになる
+        extensions: ['.js', '.ts'],
+      },
 
-    // UglifyJSPluginは非推奨
-    optimization: {
-      minimize: is_DEVELOP ? false : true,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            ecma: 2020,
-          }
-        })
-      ]
-    },
+      // UglifyJSPluginは非推奨
+      optimization: {
+        minimize: is_DEVELOP ? false : true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              ecma: 2020,
+            }
+          })
+        ]
+      },
 
-    module: {
-      rules: [
-        {
-          test: /\.ejs$/,
-          use: 'ejs-compiled-loader',
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                url: false,// sassで相対パスを書けるようにする
-                sourceMap: true,
+      module: {
+        rules: [
+          {
+            test: /\.ejs$/,
+            use: 'ejs-compiled-loader',
+          },
+          {
+            test: /\.scss$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                  url: false,// sassで相対パスを書けるようにする
+                  sourceMap: true,
+                },
               },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [
-                    [
-                      require('autoprefixer')({grid: true}),
+              {
+                loader: 'postcss-loader',
+                options: {
+                  postcssOptions: {
+                    plugins: [
+                      [
+                        require('autoprefixer')({grid: true}),
+                      ],
                     ],
-                  ],
+                  }
                 }
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                implementation: require('sass'),
-                // importer: globImporter(),
-                // sourceMap: true,
               },
-            },
-          ]
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                // promiseを使えるようにするヤツ
-                presets: ['@babel/preset-env', '@babel/preset-react'],
-                plugins: ['@babel/plugin-transform-runtime'],
+              {
+                loader: 'sass-loader',
+                options: {
+                  implementation: require('sass'),
+                },
               },
-            },
-          ],
-        },
-        {
-          enforce: 'pre',
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader',
-        },
-      ],
-    },
-    devServer: {
-      contentBase: path.resolve(__dirname, 'public'),
-      port: 8080,
-    },
-    // エラーの詳細を吐かせる（？）
-    stats: {
-      children: true
-    },
-    target: is_DEVELOP ?
-      // dev-serverのホットリロードが聞かない問題への対処
-      "web" :
-      // IE11対応（必須らしい）
-      ["web", "es5"]
+            ]
+          },
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'babel-loader',
+                options: {
+                  // promiseを使えるようにするヤツ
+                  presets: ['@babel/preset-env', '@babel/preset-react'],
+                  plugins: ['@babel/plugin-transform-runtime'],
+                },
+              },
+            ],
+          },
+          {
+            enforce: 'pre',
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader',
+          },
+        ],
+      },
+      devServer: {
+        contentBase: path.resolve(__dirname, 'public'),
+        port: 8080,
+      },
+      stats: {
+        children: true //現状機能していない模様
+      },
+      target: is_DEVELOP ?
+        // dev-serverのホットリロードが効かない問題への対処
+        "web" :
+        // IE11対応（必須らしい）
+        ["web", "es5"]
     }, assignPlugins(is_DEVELOP))
   ]
 }
