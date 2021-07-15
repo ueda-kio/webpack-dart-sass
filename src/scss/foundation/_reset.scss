@@ -1,157 +1,254 @@
-/**
- * YUI 3.5.0 - reset.css (http://developer.yahoo.com/yui/3/cssreset/)
- * http://cssreset.com
- * Copyright 2012 Yahoo! Inc. All rights reserved.
- * http://yuilibrary.com/license/
- */
-/*
-	TODO will need to remove settings on HTML since we can't namespace it.
-	TODO with the prefix, should I group by selector or property for weight savings?
-*/
-html{
-	color:#000;
-	background:#FFF;
+/*! destyle.css v3.0.0 | MIT License | https://github.com/nicolas-cusan/destyle.min.css */
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	border-style: solid;
+	border-width: 0
 }
-/*
-	TODO remove settings on BODY since we can't namespace it.
-*/
-/*
-	TODO test putting a class on HEAD.
-		- Fails on FF.
-*/
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-input,
-textarea,
+
+html {
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
+	-webkit-tap-highlight-color: transparent
+}
+
+body {
+	margin: 0
+}
+
+main {
+	display: block
+}
+
 p,
+table,
 blockquote,
-th,
-td {
-	margin:0;
-	padding:0;
-}
-table {
-	border-collapse:collapse;
-	border-spacing:0;
-}
-fieldset,
-img {
-	border:0;
-}
-/*
-	TODO think about hanlding inheritence differently, maybe letting IE6 fail a bit...
-*/
 address,
-caption,
-cite,
-code,
-dfn,
-em,
-strong,
-th,
-var {
-	font-style:normal;
-	font-weight:normal;
+pre,
+iframe,
+form,
+figure,
+dl {
+	margin: 0
 }
 
-ol,
-ul {
-	list-style:none;
-}
-
-caption,
-th {
-	text-align:left;
-}
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	font-size:100%;
-	font-weight:normal;
+	font-size: inherit;
+	font-weight: inherit;
+	margin: 0
 }
-q:before,
-q:after {
-	content:'';
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+	list-style: none
 }
-abbr,
-acronym {
-	border:0;
-	font-variant:normal;
+
+dt {
+	font-weight: 700
 }
-/* to preserve line-height and selector appearance */
+
+dd {
+	margin-left: 0
+}
+
+hr {
+	box-sizing: content-box;
+	height: 0;
+	overflow: visible;
+	border-top-width: 1px;
+	margin: 0;
+	clear: both;
+	color: inherit
+}
+
+pre {
+	font-family: monospace, monospace;
+	font-size: inherit
+}
+
+address {
+	font-style: inherit
+}
+
+a {
+	background-color: transparent;
+	text-decoration: none;
+	color: inherit
+}
+
+abbr[title] {
+	text-decoration: underline dotted
+}
+
+b,
+strong {
+	font-weight: bolder
+}
+
+code,
+kbd,
+samp {
+	font-family: monospace, monospace;
+	font-size: inherit
+}
+
+small {
+	font-size: 80%
+}
+
+sub,
 sup {
-	vertical-align:text-top;
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline
 }
+
 sub {
-	vertical-align:text-bottom;
+	bottom: -.25em
 }
+
+sup {
+	top: -.5em
+}
+
+svg,
+img,
+embed,
+object,
+iframe {
+	vertical-align: bottom
+}
+
+button,
 input,
-textarea,
-select {
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
+optgroup,
+select,
+textarea {
+	-webkit-appearance: none;
+	appearance: none;
+	vertical-align: middle;
+	color: inherit;
+	font: inherit;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	border-radius: 0;
+	text-align: inherit;
+	text-transform: inherit
 }
-/*to enable resizing for IE*/
-input,
-textarea,
-select {
-	*font-size:100%;
+
+[type="checkbox"] {
+	-webkit-appearance: checkbox;
+	appearance: checkbox
 }
-/*because legend doesn't inherit in IE */
+
+[type="radio"] {
+	-webkit-appearance: radio;
+	appearance: radio
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+	cursor: pointer
+}
+
+button:disabled,
+[type="button"]:disabled,
+[type="reset"]:disabled,
+[type="submit"]:disabled {
+	cursor: default
+}
+
+:-moz-focusring {
+	outline: auto
+}
+
+select:disabled {
+	opacity: inherit
+}
+
+option {
+	padding: 0
+}
+
+fieldset {
+	margin: 0;
+	padding: 0;
+	min-width: 0
+}
+
 legend {
-	color:#000;
-}
-/* YUI CSS Detection Stamp */
-#yui3-css-stamp.cssreset { display: none; }
-
-
-// 追加
-ul {
-  list-style-type: none;
+	padding: 0
 }
 
-input, textarea, select {
-  border: none;
-  border-radius: 0;
-  box-sizing: border-box;
-  background: none;
-  outline: none;
-  appearance: none;
-}
-
-select::-ms-expand {
-  display: none;
-}
-
-input::-ms-expand {
-  display: none;
-}
-
-input[type="radio"] {
-  display: none;
+progress {
+	vertical-align: baseline
 }
 
 textarea {
-  resize: none;
+	overflow: auto
+}
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+	height: auto
+}
+
+[type="search"] {
+	outline-offset: -2px
+}
+
+[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none
+}
+
+::-webkit-file-upload-button {
+	-webkit-appearance: button;
+	font: inherit
+}
+
+label[for] {
+	cursor: pointer
+}
+
+details {
+	display: block
+}
+
+summary {
+	display: list-item
+}
+
+[contenteditable]:focus {
+	outline: auto
+}
+
+table {
+	border-color: inherit
+}
+
+caption {
+	text-align: left
+}
+
+td,
+th {
+	vertical-align: top;
+	padding: 0
+}
+
+th {
+	text-align: left;
+	font-weight: 700
 }

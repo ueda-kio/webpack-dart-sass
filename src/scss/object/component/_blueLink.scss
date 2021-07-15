@@ -1,8 +1,0 @@
-@use "../../foundation/var";
-
-.c-blueLink {
-  color: var.$colorNormal;
-  &:hover {
-    color: coral;
-  }
-}

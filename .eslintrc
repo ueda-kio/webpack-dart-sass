@@ -1,25 +1,32 @@
 {
-  "extends": ["eslint:recommended"],
-  "plugins": [],
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "globals": {
-    "$": true
-  },
-  "rules": {
-    "no-console": "off",
-    "no-var": 2,
-    "prefer-const": 2,
-    "prefer-template": 2,
-    "prefer-spread": 2,
-    "prefer-arrow-callback": 2,
-    "no-constant-condition": 2,
-    "no-dupe-args": 2
-  }
+	"extends": [
+		"eslint:recommended",
+		"prettier" // prettierのextendsは他のextendsより後に記述する
+	],
+	"plugins": ["@typescript-eslint"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module",
+		"project": "./tsconfig.json" // TypeScriptのLint時に参照するconfigファイルを指定
+	},
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"globals": {
+		"$": true
+	},
+	"rules": {
+		"strict": "error",
+		"no-console": "off",
+		"no-var": 2,
+		"prefer-const": 2,
+		"prefer-template": 2,
+		"prefer-spread": 2,
+		"prefer-arrow-callback": 2,
+		"no-constant-condition": 2,
+		"no-dupe-args": 2
+	},
+	"root": true // 上位ディレクトリにある他のeslintrcを参照しないようにする
 }
