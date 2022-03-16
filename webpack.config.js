@@ -12,7 +12,6 @@ const assignPlugins = (env_mode) => {
 	const srcFiles = globule.find(['**/*.ejs', '!**/_*.ejs'], {
 		cwd: `${__dirname}/src/ejs`
 	});
-	const entriesList = {};
 	const assignObject = {
 		plugins: [
 			new CleanWebpackPlugin({
@@ -40,24 +39,31 @@ const assignPlugins = (env_mode) => {
 		]
 	};
 
-	for (const ejsFileName of srcFiles) {
-		const htmlFileName = ejsFileName.replace(new RegExp(`.ejs`, 'i'), `.html`);
-		entriesList[htmlFileName] = `${__dirname}/src/ejs/${ejsFileName}`;
-	}
+	const entriesList = srcFiles.reduce((temp, current) => {
+		temp[`${current.replace(new RegExp(`.ejs`, 'i'), `.html`)}`] = `${__dirname}/src/ejs/${current}`;
+		return temp;
+	}, {});
 
-	for (const [htmlFileName, ejsFileName] of Object.entries(entriesList)) {
-		assignObject.plugins.push(new HtmlWebpackPlugin({
-			filename: htmlFileName,
-			template: ejsFileName,
+	const pushEntryFiles = (filename, template) => {
+		const _obj = {
+			filename: filename,
+			template: template,
 			// 指定しないとjsもhead内に書かれちゃう
 			inject: 'body',
 			// prod時にコメントだけ削除する
 			minify: env_mode ?
-				false : {
+				false :
+				{
 					collapseWhitespace: false,
 					removeComments: true,
 				},
-		}));
+		};
+
+		assignObject.plugins.push(new HtmlWebpackPlugin(_obj));
+	};
+
+	for (const [htmlFileName, ejsFileName] of Object.entries(entriesList)) {
+		pushEntryFiles(htmlFileName, ejsFileName);
 	}
 
 	return assignObject;
